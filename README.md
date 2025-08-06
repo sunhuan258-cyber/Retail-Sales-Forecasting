@@ -1,85 +1,55 @@
-# Walmart Retail Sales Forecasting
-
-**Author:** Captain Xiaohuan
-**Date:** 2025-08-02
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
----
+# Walmart Weekly Sales Forecasting: A Time Series Analysis & Machine Learning Approach
 
 ## 1. Project Overview
 
-This project is an end-to-end data science initiative to forecast weekly sales for Walmart stores and departments. Utilizing historical sales data, the project implements a robust machine learning pipeline, including data cleaning, advanced feature engineering, and a comparative analysis of various models (SARIMAX, Prophet, and LightGBM).
+This project undertakes an end-to-end analysis of Walmart's weekly sales data with the primary business objective of delivering an accurate and robust forecasting model. In the highly competitive retail landscape, precise sales forecasting is a cornerstone of strategic decision-making, directly impacting inventory management, marketing campaign planning, and human resource allocation.
 
-The final deliverable is a comprehensive, multi-chapter Tableau story dashboard. This dashboard not only demonstrates the model's strong predictive performance on unseen data (the entire 2012 test set) but also translates technical insights into actionable business intelligence, showcasing a complete data-to-decision workflow.
+Our approach transcends traditional time series analysis by integrating classical statistical models with modern machine learning techniques, emphasizing the power of **insight-driven feature engineering**. The core highlights of this project are:
 
----
+*   **Comprehensive EDA & Data Cleaning**: We began with a thorough exploratory data analysis, identifying and handling data anomalies such as negative sales values (likely representing returns) to ensure the quality and integrity of our dataset.
+*   **Multi-Model Time Series Exploration**: We benchmarked and compared the performance of three distinct time series forecasting philosophies on a single store's data: the classical **SARIMAX**, the automated **Prophet** by Facebook, and a powerful **LightGBM** model.
+*   **Insight-Driven Feature Engineering**: The project's centerpiece is our sophisticated feature engineering. We translated insights from classical models (e.g., strong annual seasonality) into powerful features for our machine learning model, such as **lag features** (e.g., `sales_lag_52` for year-over-year comparison) and **rolling window features** (e.g., 4-week rolling mean for short-term trend capturing).
+*   **Machine Learning for Forecasting**: We demonstrated the superiority of a well-featured LightGBM model, which leverages these engineered features to achieve high accuracy on unseen test data, proving the value of combining domain knowledge with powerful gradient boosting algorithms.
 
-## 2. Key Findings & Visualization Story
+This repository provides a complete, reproducible workflow from data preprocessing to model evaluation, culminating in a final dataset ready for business intelligence and visualization.
 
-An interactive Tableau story was created to present the project's findings in a clear, structured, and professional manner.
+## 2. Key Findings & Visualizations
 
-### Chapter 1: Model Performance on Unseen Data
-![Chapter 1: Overview](images/01_overview.png)
-*   **Key Insight:** This chapter showcases the model's remarkable performance on the 2012 test set. Trained solely on 2010-2011 data, the model's predictions (orange line) closely track the actual sales (blue line), proving its strong generalization capabilities.
+Our analysis unfolds through a four-act data story, based on the insights from our Tableau visualizations:
 
-### Chapter 2: Peak Sales Analysis (Stress Test)
-![Chapter 2: Peak 1 Analysis](images/02_overview.png)
-*   **Key Insight:** Focusing on the spring sales peak around April 6, 2012, we observed that the model successfully captured the upward trend but exhibited a two-week lag in predicting the exact peak. This highlights a key model characteristic and area for future improvement.
+### Act I: Capturing the Long-Term Trend
+Our model demonstrates a remarkable ability to capture and fit the long-term sales trend with high fidelity. This proves its foundational strength in understanding the overall business trajectory.
 
-### Chapter 3: Stability Analysis (Cross-Validation)
-![Chapter 3: Peak 2 Analysis](images/03_overview.png)
-*   **Key Insight:** During the stable, non-peak period in July 2012, the model's forecast accurately captured the baseline trend while effectively filtering out random noise. This demonstrates its strength as a trend predictor rather than a noise follower.
+![Long-Term Trend Fit](images/01_overview.png)
 
-### Chapter 4: From Prediction to Business Insight
-![Chapter 4: Business Value](images/04_overview.png)
-*   **Key Insight:** The final chapter translates the model's technical success into tangible business value, outlining its applications in intelligent inventory management, targeted marketing, and agile workforce allocation.
+### Act II: The Holiday Lag - A Challenge & An Opportunity
+While the overall fit is excellent, this visualization reveals a crucial, subtle weakness. The model correctly predicts a sales spike around a major holiday, but its reaction lags behind the real-world consumer behavior. The actual sales peak occurs around April 8th, while the model's predicted peak arrives later, around April 19th. This insight is invaluable, highlighting an opportunity to create more granular, forward-looking holiday features (e.g., "weeks_until_holiday") to further enhance model accuracy.
 
----
+![Holiday Lag](images/02_overview.png)
 
-## 3. Modeling Process
+### Act III: Mastering Stability & Volatility
+A great model must perform well in all conditions. This chart confirms that our model not only accurately captures the volatile holiday periods but also maintains a high degree of fit during long stretches of stable, non-peak sales weeks. This demonstrates the model's robustness and reliability for year-round planning.
 
-- **Algorithm:** **LightGBM** was selected for its high efficiency and accuracy in handling large-scale tabular data.
-- **Feature Engineering:** Key features included time-based attributes (year, month, week), lag features (sales from the previous week and year), and rolling-window features (e.g., 4-week rolling average).
-- **Train/Test Strategy:** A strict temporal split was enforced using `2012-01-01` as the cutoff date, ensuring a realistic evaluation of the model's ability to forecast the future.
+![Stable Period Fit](images/03_overview.png)
 
----
+### Act IV: From Prediction to Profit - The Business Value
+The ultimate goal of any data science project is to create tangible business value. This final summary outlines how our predictive model translates directly into profit and efficiency gains across three key operational areas:
 
-## 4. Technologies & Tools
+1.  **Intelligent Inventory Optimization (Cost Reduction & Sales Lift)**
+    *   Our model provides procurement with forward-looking data to set dynamic safety stock levels, minimizing both stockouts during peak demand and capital tied up in excess inventory during slower periods.
 
-- **Language:** Python
-- **Libraries:** Pandas, Scikit-learn, LightGBM, Matplotlib, Seaborn, Prophet, Statsmodels
-- **BI Tool:** Tableau
-- **Version Control:** Git & GitHub
+2.  **Precision Marketing Planning (Maximizing ROI)**
+    *   The model acts as a "crystal ball" for the marketing department, identifying the golden windows for promotional campaigns and product launches to maximize their impact.
 
----
+3.  **Agile Human Resource Allocation (Boosting Efficiency & Satisfaction)**
+    *   By correlating sales forecasts with customer traffic, the model empowers HR to create flexible staffing schedules, ensuring optimal coverage during peak hours and preventing overstaffing during lulls, thereby enhancing customer experience and controlling labor costs.
 
-## 5. Getting Started
+![Business Value Summary](images/04_overview.png)
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/YourUsername/Retail-Sales-Forecasting.git
-    ```
-    (Please replace `YourUsername` with your actual GitHub username).
-2.  **Explore the analysis:**
-    - Raw data is located in the `/data` directory.
-    - The complete analysis, feature engineering, and modeling process can be found in `/notebooks/walmart_sales_analysis.ipynb`.
-3.  **Interact with the dashboard:**
-    - Download the `walmart_sales_story.twbx` file from the root directory.
-    - Open it with Tableau Public or Tableau Reader (free) to explore the interactive story.
+## 3. How to Reproduce
 
----
-
-## 6. Repository Structure
-
-```
-.
-├── data/
-├── images/
-├── models/
-├── notebooks/
-├── .gitignore
-├── LICENSE
-├── README.md
-└── walmart_sales_story.twbx
-```
+1.  **Clone the Repository**: `git clone https://github.com/sunhuan258-cyber/Retail-Sales-Forecasting.git`
+2.  **Set Up Environment**: Ensure your Python environment has the core libraries installed: `pandas`, `numpy`, `statsmodels`, `prophet`, `lightgbm`, `scikit-learn`, `jupyterlab`.
+3.  **Prepare Data**: Place the original Walmart `.csv` datasets (`train.csv`, `stores.csv`, `features.csv`) into the `data/` folder.
+4.  **Run Analysis Notebook**: Open and run `notebooks/walmart_sales_analysis.ipynb` to perform the entire workflow, from data cleaning and EDA to model training and the generation of the final `walmart_visualization_data.csv`.
+5.  **Explore Visualization**: Open the `沃尔玛可视化.twbx` file (requires Tableau Desktop or Tableau Public) to interactively explore our data story.
